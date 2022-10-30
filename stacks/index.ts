@@ -1,10 +1,8 @@
 import { App } from "@serverless-stack/resources";
-import { Api } from "./Api";
-// import { Web } from "./Web";
-// import { Vpc } from "./Vpc";
 import { Database } from "./Database";
-// import { Meow } from "./Meow";
 import { Uploads } from "./Uploads";
+import { Api } from "./Api";
+import { Auth } from "./Auth";
 
 export default function main(app: App) {
   app.setDefaultFunctionProps({
@@ -15,7 +13,5 @@ export default function main(app: App) {
     },
   });
   app.setDefaultRemovalPolicy("destroy");
-  app.stack(Database).stack(Uploads).stack(Api);
-  // .stack(Meow)
-  //.stack(Vpc);
+  app.stack(Database).stack(Uploads).stack(Api).stack(Auth);
 }
