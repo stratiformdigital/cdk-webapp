@@ -4,6 +4,7 @@
 // import { Vpc } from "./Vpc";
 import { Database } from "./Database";
 // import { Meow } from "./Meow";
+import { Uploads } from "./Uploads";
 
 export default function main(app: App) {
   app.setDefaultFunctionProps({
@@ -13,7 +14,7 @@ export default function main(app: App) {
       format: "esm",
     },
   });
-  app.stack(Database);
+  app.stack(Database).stack(Uploads);
   // .stack(Meow)
   //.stack(Vpc);
 }
