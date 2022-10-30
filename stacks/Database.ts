@@ -25,9 +25,12 @@ export function Database({ stack }: StackContext) {
 
   return {
     amendmentsTable,
-    amendmentsAtomicCounterTable,
-    TABLE_NAME: new Config.Parameter(stack, "TABLE_NAME", {
+    AMENDMENTS_TABLE_NAME: new Config.Parameter(stack, "AMENDMENTS_TABLE_NAME", {
       value: amendmentsTable.tableName,
+    }),
+    amendmentsAtomicCounterTable,
+    AMENDMENTS_ATOMIC_COUNTER_TABLE_NAME: new Config.Parameter(stack, "AMENDMENTS_ATOMIC_COUNTER_TABLE_NAME", {
+      value: amendmentsAtomicCounterTable.tableName,
     }),
   };
 }
