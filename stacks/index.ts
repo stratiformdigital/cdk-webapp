@@ -1,9 +1,9 @@
-import { App } from "@serverless-stack/resources";
-import { Api } from "./Api";
-import { Web } from "./Web";
-import { Vpc } from "./Vpc";
+// import { App } from "@serverless-stack/resources";
+// import { Api } from "./Api";
+// import { Web } from "./Web";
+// import { Vpc } from "./Vpc";
 import { Database } from "./Database";
-import { Meow } from "./Meow";
+// import { Meow } from "./Meow";
 
 export default function main(app: App) {
   app.setDefaultFunctionProps({
@@ -13,6 +13,7 @@ export default function main(app: App) {
       format: "esm",
     },
   });
-  app.stack(Database).stack(Meow)
+  app.stack(Database);
+  // .stack(Meow)
   //.stack(Vpc);
 }

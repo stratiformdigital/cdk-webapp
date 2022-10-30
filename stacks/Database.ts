@@ -1,23 +1,21 @@
 import { Config, StackContext, Table } from "@serverless-stack/resources";
+import { RemovalPolicy } from "aws-cdk-lib";
 
 export function Database({ stack }: StackContext) {
-  const table = new Table(stack, "f-table", {
+  const table = new Table(stack, "amendments", {
     fields: {
-      pk: "string",
-      sk: "string",
-      gsi1pk: "string",
-      gsi1sk: "string",
+      userId: "string",
+      amendmentId: "string",
     },
     primaryIndex: {
-      partitionKey: "pk",
-      sortKey: "sk",
+      partitionKey: "userId",
+      sortKey: "amendmentId",
     },
-    globalIndexes: {
-      gsi1: {
-        partitionKey: "gsi1pk",
-        sortKey: "gsi1sk",
-      },
-    },
+    cdk: {
+      table: {
+        removalPolicy: RemovalPolicy.DESTROY,
+      }
+    }
   });
 
   return {
