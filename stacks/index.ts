@@ -14,6 +14,7 @@ export default function main(app: App) {
       format: "esm",
     },
   });
+  app.setDefaultRemovalPolicy("destroy");
   app.stack(Database).stack(Uploads);
   // .stack(Meow)
   //.stack(Vpc);

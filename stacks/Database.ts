@@ -1,6 +1,5 @@
 import { Config, StackContext, Table } from "@serverless-stack/resources";
-import { aws_dynamodb, RemovalPolicy } from "aws-cdk-lib";
-import { StreamViewType } from "aws-cdk-lib/aws-dynamodb";
+import { RemovalPolicy } from "aws-cdk-lib";
 
 export function Database({ stack }: StackContext) {
   const amendmentsTable = new Table(stack, "amendments", {
@@ -13,11 +12,6 @@ export function Database({ stack }: StackContext) {
       sortKey: "amendmentId",
     },
     stream: "new_and_old_images",
-    cdk: {
-      table: {
-        removalPolicy: RemovalPolicy.DESTROY,
-      }
-    }
   });
 
   const amendmentsAtomicCounterTable = new Table(stack, "amendments-atomic-counter", {
@@ -27,11 +21,6 @@ export function Database({ stack }: StackContext) {
     primaryIndex: {
       partitionKey: "id",
     },
-    cdk: {
-      table: {
-        removalPolicy: RemovalPolicy.DESTROY,
-      }
-    }
   });
 
   return {
