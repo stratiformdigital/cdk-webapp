@@ -42,5 +42,8 @@ export function Api({ stack }: StackContext) {
     API: api.url,
   });
 
-  return api;
+  return {
+    api,
+    api_url: api.url
+  };
 }

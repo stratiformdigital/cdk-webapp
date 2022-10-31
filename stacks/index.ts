@@ -4,6 +4,7 @@ import { Uploads } from "./Uploads";
 import { Api } from "./Api";
 import { Auth } from "./Auth";
 import { Ui } from "./Ui";
+import { Web } from "./Web";
 
 export default function main(app: App) {
   app.setDefaultFunctionProps({
@@ -14,5 +15,5 @@ export default function main(app: App) {
     },
   });
   app.setDefaultRemovalPolicy("destroy");
-  app.stack(Database).stack(Uploads).stack(Api).stack(Ui).stack(Auth);
+  app.stack(Database).stack(Uploads).stack(Api).stack(Ui).stack(Auth).stack(Web);
 }

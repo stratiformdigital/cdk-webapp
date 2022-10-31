@@ -16,7 +16,7 @@ export function Ui({ stack }: StackContext) {
     responseHttpStatus: 403,
     responsePagePath: '/index.html',
   };
-  const dist =new cloudfront.Distribution(stack, 'frontenddist', {
+  const distribution = new cloudfront.Distribution(stack, 'frontenddist', {
     defaultBehavior: { 
       origin: new origins.S3Origin(bucket) ,
       viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
@@ -28,5 +28,8 @@ export function Ui({ stack }: StackContext) {
   });
 
   return {
+    bucket,
+    distribution,
+    application_endpoint_url: `https://${distribution.domainName}/`
   };
 }

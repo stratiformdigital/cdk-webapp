@@ -1,0 +1,21 @@
+.App {
+  margin-top: 15px;
+}
+
+.App .navbar {
+  font-weight: bold;
+  background-color: rgb(237, 237, 237);
+  border-style: solid;
+  border-color: lightgray;
+}
+
+.App .navitem {
+  font-weight: normal;
+  text-align: left;
+  padding: 5px;
+  color: black;
+}
+.App .navitem:hover {
+  background-color: rgb(237, 237, 237);
+  cursor: pointer;
+}

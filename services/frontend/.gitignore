@@ -1,0 +1,42 @@
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+.idea/
+env-config.js
+public/env-config.js
+
+# misc
+.DS_Store
+
+# AWS info is populated into this file.
+.env.local
+
+# In this file, developers may put any environment variables that they can't or don't want to check in.
+.env.development
+
+# These aren't typically used in our workflows.  Ignoring them for now for safety
+.env.production
+.env.production.local
+.env.test
+.env.test.local
