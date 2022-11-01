@@ -13,15 +13,11 @@ export function Api({ stack }: StackContext) {
     defaults: {
       authorizer: "iam",
       function: {
-        permissions:[
-          db.amendmentsTable,
-          db.amendmentsAtomicCounterTable,
-        ],
+        permissions: [db.amendmentsTable, db.amendmentsAtomicCounterTable],
         environment: {
           tableName: db.amendmentsTable.tableName,
           atomicCounterTableName: db.amendmentsAtomicCounterTable.tableName,
           dynamoRegion: "us-east-1", // lol I'll come back
-
         },
       },
     },
@@ -31,7 +27,6 @@ export function Api({ stack }: StackContext) {
       "GET /amendments": "functions/list.main",
       "PUT /amendments/{id}": "functions/update.main",
       "DELETE /amendments/{id}": "functions/delete.main",
-
     },
   });
 
@@ -45,6 +40,6 @@ export function Api({ stack }: StackContext) {
 
   return {
     api,
-    api_url: api.url
+    api_url: api.url,
   };
 }

@@ -15,5 +15,11 @@ export default function main(app: App) {
     },
   });
   app.setDefaultRemovalPolicy("destroy");
-  app.stack(Database).stack(Uploads).stack(Api).stack(Ui).stack(Auth).stack(Frontend);
+  app
+    .stack(Database)
+    .stack(Uploads)
+    .stack(Api)
+    .stack(Ui)
+    .stack(Auth)
+    .stack(Frontend);
 }

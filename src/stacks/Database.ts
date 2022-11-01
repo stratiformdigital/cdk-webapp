@@ -14,23 +14,35 @@ export function Database({ stack }: StackContext) {
     stream: "new_and_old_images",
   });
 
-  const amendmentsAtomicCounterTable = new Table(stack, "amendments-atomic-counter", {
-    fields: {
-      id: "string",
-    },
-    primaryIndex: {
-      partitionKey: "id",
-    },
-  });
+  const amendmentsAtomicCounterTable = new Table(
+    stack,
+    "amendments-atomic-counter",
+    {
+      fields: {
+        id: "string",
+      },
+      primaryIndex: {
+        partitionKey: "id",
+      },
+    }
+  );
 
   return {
     amendmentsTable,
-    AMENDMENTS_TABLE_NAME: new Config.Parameter(stack, "AMENDMENTS_TABLE_NAME", {
-      value: amendmentsTable.tableName,
-    }),
+    AMENDMENTS_TABLE_NAME: new Config.Parameter(
+      stack,
+      "AMENDMENTS_TABLE_NAME",
+      {
+        value: amendmentsTable.tableName,
+      }
+    ),
     amendmentsAtomicCounterTable,
-    AMENDMENTS_ATOMIC_COUNTER_TABLE_NAME: new Config.Parameter(stack, "AMENDMENTS_ATOMIC_COUNTER_TABLE_NAME", {
-      value: amendmentsAtomicCounterTable.tableName,
-    }),
+    AMENDMENTS_ATOMIC_COUNTER_TABLE_NAME: new Config.Parameter(
+      stack,
+      "AMENDMENTS_ATOMIC_COUNTER_TABLE_NAME",
+      {
+        value: amendmentsAtomicCounterTable.tableName,
+      }
+    ),
   };
 }
