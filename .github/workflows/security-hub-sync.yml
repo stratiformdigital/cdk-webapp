@@ -1,0 +1,57 @@
+name: Security Hub Sync
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 12-21 * * *"
+
+concurrency:
+  group: ${{ github.workflow }}
+
+jobs:
+  sync-main:
+    runs-on: ubuntu-20.04
+    environment:
+      name: main
+    permissions:
+      id-token: write
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure direnv
+        uses: HatsuneMiku3939/direnv-action@v1
+
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version-file: .nvmrc
+
+      - name: Node cache
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: us-east-1
+
+      - name: Sync
+        run: run syncSecurityHubFindings --auth $GITHUB_TOKEN --repository $GITHUB_REPOSITORY
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        if: env.SLACK_WEBHOOK != '' && failure()
+        env:
+          SLACK_COLOR: ${{job.status}}
+          SLACK_ICON: https://github.com/stratiformdigital.png?size=48
+          SLACK_TITLE: Failure
+          SLACK_USERNAME: ${{ github.repository }} ${{job.status}}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

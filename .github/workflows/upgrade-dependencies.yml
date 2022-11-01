@@ -1,0 +1,75 @@
+name: Upgrade Dependencies
+
+on:
+  workflow_dispatch:
+  # If you'd like to run this on a cron, use a block such as the following:
+  # schedule: # Run every Monday at 9:00am
+  #   - cron: "0 9 * * 1"
+
+concurrency:
+  group: ${{ github.workflow }}
+
+jobs:
+  upgrade-dependencies:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT_PRIVATE }}
+          fetch-depth: 0
+
+      - name: Configure direnv
+        uses: HatsuneMiku3939/direnv-action@v1
+
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version-file: .nvmrc
+
+      - name: Upgrade all node dependencies
+        id: upgrade
+        run: |
+          yarn upgrade
+          for dir in src/services/*/ src/services/.*/ ; do
+              if [[ "$dir" =~ ^src/services/(./|../)$ ]]; then continue ; fi
+              yarn --cwd $dir upgrade
+          done
+          if [ "$(git status --porcelain)" ]; then 
+            echo "::set-output name=changes::true"
+          fi
+
+      - name: Commit code to deps branch
+        if: ${{ steps.upgrade.outputs.changes }}
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git branch -D deps || true
+          git checkout -b deps
+          git commit -a -m "chore(deps):  Upgrade all node dependencies"
+          git push --set-upstream origin deps --force
+
+      - name: Create Pull Request
+        if: ${{ steps.upgrade.outputs.changes }}
+        uses: devops-infra/action-pull-request@v0.5.0
+        with:
+          github_token: ${{ secrets.PAT_PRIVATE }}
+          source_branch: deps
+          target_branch: main
+          label: dependencies
+          title: "chore(deps):  Upgrade all node dependencies"
+          body: |
+            **This Pull Request was created by GitHub Actions**
+
+            This changeset upgrades all node dependencies for the project.
+            Each package is upgraded to the latest version allowed based on the specified range in package.json.
+
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        if: env.SLACK_WEBHOOK != '' && failure()
+        env:
+          SLACK_COLOR: ${{job.status}}
+          SLACK_ICON: https://github.com/stratiformdigital.png?size=48
+          SLACK_TITLE: Failure
+          SLACK_USERNAME: ${{ github.repository }} ${{job.status}}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

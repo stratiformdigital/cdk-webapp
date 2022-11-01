@@ -1,0 +1,105 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - "*"
+      - "!skipci*"
+
+concurrency:
+  group: ${{ github.ref_name }}-group
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    environment:
+      name: ${{ github.ref_name }}
+    env:
+      STAGE_NAME: ${{ github.ref_name }}
+    permissions:
+      id-token: write
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Validate stage name
+        run: |
+          if [[ ! $STAGE_NAME =~ ^[a-z][a-z0-9-]*$ ]]; then
+              echo "ERROR:  Your branch name, $STAGE_NAME, is not a valid Serverless Framework stage name." && exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure direnv
+        uses: HatsuneMiku3939/direnv-action@v1
+
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version-file: .nvmrc
+
+      - name: Node cache
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      # - name: Run unit tests
+      #   run: run unitTest
+
+      # - name: Publish test coverage to code climate
+      #   if: env.CC_TEST_REPORTER_ID != ''
+      #   uses: paambaati/codeclimate-action@v2.7.5
+      #   env:
+      #     CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      #   with:
+      #     coverageLocations: |
+      #       ${{github.workspace}}/src/services/ui-src/coverage/lcov.info:lcov
+
+      # - name: Store unit test reults
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: unit_test_results
+      #     path: ${{github.workspace}}/src/services/ui-src/coverage/lcov.info
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: us-east-1
+      
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Install Frontend Dependencies
+        run: yarn install
+        working-directory: src/services/frontend
+
+      - name: Deploy
+        run: yarn run deploy --stage $STAGE_NAME
+
+      # - name: Run Nightwatch suite
+      #   run: run test --stage $STAGE_NAME
+
+      # - name: Store test reults
+      #   if: ${{ always() }}
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: test_results
+      #     path: tests/nightwatch/tests_output
+
+      - name: Release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        if: env.SLACK_WEBHOOK != '' && contains(fromJson('["main", "staging", "production"]'), env.STAGE_NAME) && failure()
+        env:
+          SLACK_COLOR: ${{job.status}}
+          SLACK_ICON: https://github.com/stratiformdigital.png?size=48
+          SLACK_TITLE: Failure
+          SLACK_USERNAME: ${{ github.repository }} - ${{job.status}}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
