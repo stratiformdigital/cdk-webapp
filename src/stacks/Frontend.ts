@@ -1,17 +1,22 @@
-import { Config, StackContext, use , ReactStaticSite } from "@serverless-stack/resources";
+import {
+  Config,
+  StackContext,
+  use,
+  ReactStaticSite,
+} from "@serverless-stack/resources";
 import { Auth } from "./Auth";
 import { Api } from "./Api";
 import { Ui } from "./Ui";
 import { Uploads } from "./Uploads";
 import { exec } from "child_process";
-import * as deploy from 'aws-cdk-lib/aws-s3-deployment';
+import * as deploy from "aws-cdk-lib/aws-s3-deployment";
 
 export async function Frontend({ stack }: StackContext) {
   const api = use(Api);
   const auth = use(Auth);
   const ui = use(Ui);
   const uploads = use(Uploads);
-  
+
   var site = new ReactStaticSite(stack, "ReactSite", {
     path: "src/services/frontend",
     environment: {
@@ -28,8 +33,8 @@ export async function Frontend({ stack }: StackContext) {
       REACT_APP_S3_ATTACHMENTS_BUCKET_NAME: uploads.bucket.bucketName,
     },
     cdk: {
-      bucket: ui.bucket
-    }
+      bucket: ui.bucket,
+    },
   });
 
   stack.addOutputs({

@@ -19,7 +19,8 @@ export const main = handler(async (event, context) => {
     Item: {
       userId: event.requestContext.authorizer.iam.cognitoIdentity.identityId,
       amendmentId: uuid.v1(),
-      authProvider: event.requestContext.authorizer.iam.cognitoIdentity.identityPoolId,
+      authProvider:
+        event.requestContext.authorizer.iam.cognitoIdentity.identityPoolId,
       email: data.email,
       firstName: data.firstName,
       lastName: data.lastName,
