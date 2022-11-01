@@ -10,7 +10,7 @@
     <img alt="CodeQL" src="https://github.com/stratiformdigital/cdk-webapp/actions/workflows/codeql-analysis.yml/badge.svg?branch=main">
   </a>
   -->
-  <a href="https://animated-umbrella-2bc1a76f.pages.github.io">
+  <a href="https://symmetrical-disco-67126a20.pages.github.io">
     <img alt="Docs" src="https://img.shields.io/badge/Docs-Pages-blue.svg">
   </a>
   <a href="https://stratiformworkspace.slack.com/archives/C03PPFBCLQ5">
@@ -36,7 +36,7 @@
 
 ---
 
-### Please visit the [cdk-webapp documentation site](https://animated-umbrella-2bc1a76f.pages.github.io) for complete documentation. This README is just an introduction.
+### Please visit the [cdk-webapp documentation site](https://symmetrical-disco-67126a20.pages.github.io) for complete documentation. This README is just an introduction.
 
 ---
 
