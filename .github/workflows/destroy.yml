@@ -56,7 +56,7 @@ jobs:
         run: yarn install
         working-directory: src/services/frontend
 
-      - name: Deploy
+      - name: Destroy
         run: yarn run remove --stage $STAGE_NAME # I don't want to use this long term to destroy.
 
       # - name: Destroy
