@@ -2,9 +2,9 @@ import { App } from "@serverless-stack/resources";
 import { Database } from "./Database";
 import { Uploads } from "./Uploads";
 import { Api } from "./Api";
-import { Auth } from "./Auth";
 import { Ui } from "./Ui";
-import { Web } from "./Web";
+import { Auth } from "./Auth";
+import { Frontend } from "./Frontend";
 
 export default function main(app: App) {
   app.setDefaultFunctionProps({
@@ -15,5 +15,5 @@ export default function main(app: App) {
     },
   });
   app.setDefaultRemovalPolicy("destroy");
-  app.stack(Database).stack(Uploads).stack(Api).stack(Ui).stack(Auth).stack(Web);
+  app.stack(Database).stack(Uploads).stack(Api).stack(Ui).stack(Auth).stack(Frontend);
 }

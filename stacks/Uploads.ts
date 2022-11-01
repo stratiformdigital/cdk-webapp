@@ -1,9 +1,17 @@
 import { Bucket, Config, StackContext } from "@serverless-stack/resources";
 import { RemovalPolicy } from "aws-cdk-lib";
 import * as iam from 'aws-cdk-lib/aws-iam';
-
+import * as cdk from 'aws-cdk-lib';
 export function Uploads({ stack }: StackContext) {
   const bucket = new Bucket(stack, "attachments", {
+    cors: [
+      {
+        allowedMethods: ["GET","PUT","POST","DELETE","HEAD"],
+        allowedOrigins: ["*"],
+        allowedHeaders: ["*"],
+        maxAge: "3600 second",
+      }
+    ],
     cdk: {
       bucket: {
         autoDeleteObjects: true,

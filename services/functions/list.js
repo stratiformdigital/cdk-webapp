@@ -17,7 +17,7 @@ export const main = handler(async (event, context) => {
     //   of the authenticated user
     KeyConditionExpression: "userId = :userId",
     ExpressionAttributeValues: {
-      ":userId": event.requestContext.identity.cognitoIdentityId,
+      ":userId": event.requestContext.authorizer.iam.cognitoIdentity.identityId,
     },
   };
 

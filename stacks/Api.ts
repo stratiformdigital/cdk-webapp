@@ -11,6 +11,7 @@ export function Api({ stack }: StackContext) {
 
   const api = new ApiGateway(stack, "api", {
     defaults: {
+      authorizer: "iam",
       function: {
         permissions:[
           db.amendmentsTable,
@@ -25,7 +26,7 @@ export function Api({ stack }: StackContext) {
       },
     },
     routes: {
-      "POST /amendments/{id}": "functions/create.main",
+      "POST /amendments": "functions/create.main",
       "GET /amendments/{id}": "functions/get.main",
       "GET /amendments": "functions/list.main",
       "PUT /amendments/{id}": "functions/update.main",

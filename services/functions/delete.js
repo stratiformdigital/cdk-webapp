@@ -11,7 +11,7 @@ export const main = handler(async (event, context) => {
   await dynamoDb.delete({
     TableName: process.env.tableName,
     Key: {
-      userId: event.requestContext.identity.cognitoIdentityId,
+      userId: event.requestContext.authorizer.iam.cognitoIdentity.identityId,
       amendmentId: event.pathParameters.id,
     },
   });
