@@ -1,0 +1,40 @@
+name: "CodeQL"
+
+on:
+  pull_request:
+    branches:
+      - main
+      - staging
+      - production
+  schedule:
+    - cron: "00 4 * * 1"
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ["javascript"]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
+
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        if: env.SLACK_WEBHOOK != '' && github.event_name != "pull_request" && failure()
+        env:
+          SLACK_COLOR: ${{job.status}}
+          SLACK_ICON: https://github.com/stratiformdigital.png?size=48
+          SLACK_TITLE: Failure
+          SLACK_USERNAME: ${{ github.repository }} ${{job.status}}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
