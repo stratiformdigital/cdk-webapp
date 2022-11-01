@@ -19,8 +19,8 @@
   <a href="https://dependabot.com/">
     <img alt="Dependabot" src="https://badgen.net/badge/Dependabot/enabled/green?icon=dependabot">
   </a>
-  <a href="https://codeclimate.com/repos/62ba4d05ce718301a400cbad/maintainability">
-    <img src="https://api.codeclimate.com/v1/badges/224d6a63e41ff1fca06f/maintainability" />
+  <a href="https://codeclimate.com/repos/63610cd99e84aa2157004223/maintainability">
+    <img src="https://api.codeclimate.com/v1/badges/9c9ebbd3c4ec58e24f50/maintainability" />
   </a>
   <a href="https://github.com/prettier/prettier">
     <img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square">
