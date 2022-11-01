@@ -9,7 +9,7 @@ import { Frontend } from "./Frontend";
 export default function main(app: App) {
   app.setDefaultFunctionProps({
     runtime: "nodejs16.x",
-    srcPath: "services",
+    srcPath: "src/services",
     bundle: {
       format: "esm",
     },

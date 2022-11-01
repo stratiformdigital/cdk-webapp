@@ -13,7 +13,7 @@ export async function Frontend({ stack }: StackContext) {
   const uploads = use(Uploads);
   
   var site = new ReactStaticSite(stack, "ReactSite", {
-    path: "services/frontend",
+    path: "src/services/frontend",
     environment: {
       REACT_APP_API_REGION: "us-east-1", // will come back
       REACT_APP_API_URL: api.api.url,
