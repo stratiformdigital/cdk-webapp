@@ -59,15 +59,3 @@ Pull requests from forks are being accepted.
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) by [Stratiform Digital LLC](https://stratiform.digital)
 
 See [LICENSE](LICENSE) for full details.
-
-## Contributors
-
-| [![Mike Dial][dial_avatar]][dial_homepage]<br/>[Mike Dial][dial_homepage] | [![Doug White][white_avatar]][white_homepage]<br/>[Doug White][white_homepage] | [![Berry Davenport][davenport_avatar]][davenport_homepage]<br/>[Berry Davenport][davenport_homepage] |
-| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
-
-[dial_homepage]: https://github.com/mdial89f
-[dial_avatar]: https://avatars.githubusercontent.com/mdial89f?size=150
-[white_homepage]: https://github.com/dwhitecl
-[white_avatar]: https://avatars.githubusercontent.com/dwhitecl?size=150
-[davenport_homepage]: https://github.com/berryd
-[davenport_avatar]: https://avatars.githubusercontent.com/berryd?size=150
